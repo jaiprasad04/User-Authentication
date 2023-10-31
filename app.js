@@ -27,6 +27,17 @@ const initializeDbAndServer = async () => {
 
 initializeDbAndServer();
 
+app.get("/users", async (request, response) => {
+  const getAllUsersQuery = `
+        SELECT 
+          *
+        FROM 
+          user;`;
+
+  const userArray = await db.all(getAllUsersQuery);
+  response.send(userArray);
+});
+
 app.post("/register", async (request, response) => {
   const { username, name, password, gender, location } = request.body;
   const hashedPassword = await bcrypt.hash(password, 10);
